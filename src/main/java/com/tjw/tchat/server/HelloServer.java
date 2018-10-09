@@ -21,7 +21,7 @@ public class HelloServer {
             // 创建启动类
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(mainGroup,workGroup).channel(NioServerSocketChannel.class)
-                    .childHandler(null);
+                    .childHandler(new HelloInlitializer());
             // 启动
             ChannelFuture channelFuture = serverBootstrap.bind(8088).sync();
 
