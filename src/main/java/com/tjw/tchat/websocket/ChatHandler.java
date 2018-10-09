@@ -25,14 +25,14 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         // 获取客户端传递过来的内同
         String content = msg.text();
         System.out.println("接收到的数据:"+content);
-        for (Channel channel:clients){
-            // 需要用textwebsocketframe作为载体
-            channel.writeAndFlush(new TextWebSocketFrame("[服务器在]"+LocalDateTime.now()
-                    +"，接收到消息，消息为:"+content));
-        }
+//        for (Channel channel:clients){
+//            // 需要用textwebsocketframe作为载体
+//            channel.writeAndFlush(new TextWebSocketFrame("[服务器在]"+LocalDateTime.now()
+//                    +"，接收到消息，消息为:"+content));
+//        }
         // 也可以直接使用cliens的writeandflush方法
-//        clients.writeAndFlush(new TextWebSocketFrame("[服务器在]"+LocalDateTime.now()
-//                +"，接收到消息，消息为:"+content));
+        clients.writeAndFlush(new TextWebSocketFrame("[服务器在]"+LocalDateTime.now()
+                +"，接收到消息，消息为:"+content));
     }
 
     @Override
@@ -40,6 +40,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
      * 打开客户端时，将channel放到group里
      */
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("客户端上线："+ctx.channel().id().asLongText());
         clients.add(ctx.channel());
     }
 
