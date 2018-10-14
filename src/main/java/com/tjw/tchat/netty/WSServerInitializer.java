@@ -1,4 +1,4 @@
-package com.tjw.tchat.websocket;
+package com.tjw.tchat.netty;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -26,7 +26,7 @@ public class WSServerInitializer extends ChannelInitializer<SocketChannel> {
         // =======================以上是支持http协议
 
         /**
-         * websocket 服务器处理的协议，用于指定给客户端访问的路由地址:ws
+         * netty 服务器处理的协议，用于指定给客户端访问的路由地址:ws
          * 本handler会帮助你处理一些繁杂的事情
          * 会处理握手动作:handshaking(close,ping,pong) ping+pong=心跳
          * 对于websocket，都是以frames进行传输的，不同数据类型对应的frames也不同

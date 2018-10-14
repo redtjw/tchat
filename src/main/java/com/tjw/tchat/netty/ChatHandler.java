@@ -1,6 +1,5 @@
-package com.tjw.tchat.websocket;
+package com.tjw.tchat.netty;
 
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
