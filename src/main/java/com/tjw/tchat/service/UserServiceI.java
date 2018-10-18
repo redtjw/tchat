@@ -28,4 +28,12 @@ public interface UserServiceI {
      * @return
      */
     Users register(Users users) throws Exception;
+
+    /**
+     * 修改
+     * @param users
+     */
+    Users updateUserInfo(Users users);
+
+    Users getById(String userId);
 }

@@ -7,6 +7,7 @@ import com.tjw.tchat.utils.MD5Utils;
 import com.tjw.tchat.utils.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
@@ -45,9 +46,20 @@ public class UserService implements UserServiceI {
         users.setFaceImageBig("");
         users.setQrcode("");
         users.setId(UUIDUtil.uuid());
-        users.setNickname("");
+        users.setNickname(users.getUsername());
         usersMapper.insert(users);
         return users;
+    }
+
+    @Override
+    public Users updateUserInfo(Users users) {
+        usersMapper.updateByPrimaryKeySelective(users);
+        return this.getById(users.getId());
+    }
+
+    @Override
+    public Users getById(String userId) {
+        return usersMapper.selectByPrimaryKey(userId);
     }
 
 }
