@@ -2,6 +2,9 @@ package com.tjw.tchat.service;
 
 import com.tjw.tchat.pojo.Users;
 import com.tjw.tchat.pojo.bo.UsersLoginRquest;
+import com.tjw.tchat.pojo.vo.FriendRequestVO;
+
+import java.util.List;
 
 /**
  * @author Mr.Tang
@@ -36,4 +39,34 @@ public interface UserServiceI {
     Users updateUserInfo(Users users);
 
     Users getById(String userId);
+
+    /**
+     * 添加好友的前置条件
+     * @param myUserId
+     * @param friendUserName
+     * @return
+     */
+    Integer preConditionSerachFriend(String myUserId,String friendUserName);
+
+    /**
+     * 根据用户名查询用户
+     * @param userName
+     * @return
+     */
+    Users getUserByName(String userName);
+
+    /**
+     * 发送添加好友请求
+     * @param userId
+     * @param userName
+     * @return
+     */
+    Boolean sendAddFriendRequest(String userId,String userName);
+
+    /**
+     * 查询好友请求列表
+     * @param userId
+     * @return
+     */
+    List<FriendRequestVO> listFriendRequest(String userId);
 }

@@ -1,5 +1,6 @@
 package com.tjw.tchat.controller;
 
+import com.tjw.tchat.enums.SearchFriendsStatusEnum;
 import com.tjw.tchat.pojo.Users;
 import com.tjw.tchat.pojo.bo.UsersBO;
 import com.tjw.tchat.pojo.bo.UsersLoginRquest;
@@ -88,5 +89,43 @@ public class UserController {
         users.setNickname(usersBO.getNickname());
         users = userService.updateUserInfo(users);
         return TChatResponse.ok(users);
+    }
+    @PostMapping(value = "/searchFriend")
+    TChatResponse serachFriend(String userId,String friendUserName){
+        if (StringUtils.isBlank(userId)||StringUtils.isBlank(friendUserName)){
+            return TChatResponse.errorMsg("");
+        }
+        // 用户必须存在
+        // 用户不能是自己
+        // 用户不能是已添加好友
+        Integer status = userService.preConditionSerachFriend(userId, friendUserName);
+        if (status==SearchFriendsStatusEnum.SUCCESS.status){
+            Users users = userService.getUserByName(friendUserName);
+            UsersVO usersVO = new UsersVO();
+            BeanUtils.copyProperties(users,usersVO);
+            return TChatResponse.ok(usersVO);
+        }else{
+            return TChatResponse.errorMsg(SearchFriendsStatusEnum.getMsgByKey(status));
+        }
+    }
+    @PostMapping(value = "/addFriend")
+    TChatResponse addFriend(String userId,String friendUserName){
+        if (StringUtils.isBlank(userId)||StringUtils.isBlank(friendUserName)){
+            return TChatResponse.errorMsg("");
+        }
+        // 用户必须存在
+        // 用户不能是自己
+        // 用户不能是已添加好友
+        Integer status = userService.preConditionSerachFriend(userId, friendUserName);
+        if (status==SearchFriendsStatusEnum.SUCCESS.status){
+            userService.sendAddFriendRequest(userId, friendUserName);
+        }else{
+            return TChatResponse.errorMsg(SearchFriendsStatusEnum.getMsgByKey(status));
+        }
+        return TChatResponse.ok();
+    }
+    @PostMapping(value = "/listFriendRequest")
+    TChatResponse listFriendRequest(String userId){
+        return TChatResponse.ok(userService.listFriendRequest(userId));
     }
 }
